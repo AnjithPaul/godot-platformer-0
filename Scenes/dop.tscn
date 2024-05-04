@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://ck25buxul3b4x"]
+
+[ext_resource type="Script" path="res://Scripts/dop.gd" id="1_fjsr0"]
+
+[node name="DOP" type="Node2D"]
+script = ExtResource("1_fjsr0")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(98, -52)
+zoom = Vector2(5, 5)
+limit_smoothed = true
+position_smoothing_enabled = true
+editor_draw_limits = true
