@@ -1,6 +1,9 @@
 extends CharacterBody2D
 
 const SPEED = 130.0
+const MIN_SPEED = 120.0
+const MAX_SPEED = 150.0
+const ACCELERATION_TIME = 0.5
 const JUMP_VELOCITY = -250.0
 const COYOTE_TIME = 0.1  # Coyote time duration in seconds
 const MAX_JUMP_TIME = 0.2  # Maximum time the jump button can be held down
@@ -9,9 +12,11 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var jump_pressed_time = 0.0
 var leave_floor_time = 0.0
 var can_jump = false
+var speed = MIN_SPEED
+var previous_direction
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
-
+	
 func _physics_process(delta):
 	# Add gravity.
 	if not is_on_floor():
@@ -20,7 +25,7 @@ func _physics_process(delta):
 	# Handle coyote time.
 	if is_on_floor():
 		leave_floor_time = 0.0
-		can_jump = true 	
+		can_jump = true 
 	else:
 		if !Input.is_action_pressed("jump"):
 			leave_floor_time += delta
@@ -52,5 +57,13 @@ func _physics_process(delta):
 
 	animated_sprite_2d.flip_h = direction < 0
 
-	velocity.x = direction * SPEED
+	#Handle Velocity
+	var acceleration = (MAX_SPEED - MIN_SPEED) / ACCELERATION_TIME
+
+	if direction != previous_direction or direction == 0:
+		speed = MIN_SPEED
+	else:
+		speed += acceleration * delta if speed < MAX_SPEED else 0
+	previous_direction = direction
+	velocity.x = direction * speed
 	move_and_slide()
