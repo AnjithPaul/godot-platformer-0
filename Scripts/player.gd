@@ -38,16 +38,17 @@ func _physics_process(delta):
 		else:
 			can_jump = false
 
+	# Handle jump.
+	if can_jump and Input.is_action_pressed("jump") and jump_pressed_time < MAX_JUMP_TIME:
+		velocity.y = JUMP_VELOCITY
+		if jump_pressed_time == 0.0:
+			animation_player.play("jump")
+		coyote_enabled = false
+	
 	# Update jump_pressed_time.
 	if can_jump and Input.is_action_pressed("jump"):
 		jump_pressed_time += delta
 		print(jump_pressed_time)
-
-	# Handle jump.
-	if can_jump and Input.is_action_pressed("jump") and jump_pressed_time < MAX_JUMP_TIME:
-		velocity.y = JUMP_VELOCITY
-		animation_player.play("jump")
-		coyote_enabled = false
 		
 	if Input.is_action_just_released("jump"):
 		can_jump = false
