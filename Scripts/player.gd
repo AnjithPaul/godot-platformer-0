@@ -17,7 +17,8 @@ var previous_direction
 var coyote_enabled
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
-	
+@onready var animation_player = $AnimationPlayer
+
 func _physics_process(delta):
 	# Add gravity.
 	if not is_on_floor():
@@ -45,6 +46,7 @@ func _physics_process(delta):
 	# Handle jump.
 	if can_jump and Input.is_action_pressed("jump") and jump_pressed_time < MAX_JUMP_TIME:
 		velocity.y = JUMP_VELOCITY
+		animation_player.play("jump")
 		coyote_enabled = false
 		
 	if Input.is_action_just_released("jump"):

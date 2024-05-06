@@ -1,7 +1,8 @@
-[gd_scene load_steps=26 format=3 uid="uid://b58xk3eqtnwk2"]
+[gd_scene load_steps=30 format=3 uid="uid://b58xk3eqtnwk2"]
 
 [ext_resource type="Texture2D" uid="uid://cqtp4c3rrw0au" path="res://Assets/sprites/knight.png" id="1_5ejf3"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_50ajm"]
+[ext_resource type="AudioStream" uid="uid://b260rfqd1aons" path="res://Assets/sounds/jump.wav" id="3_s768p"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6g8qx"]
 atlas = ExtResource("1_5ejf3")
@@ -171,6 +172,43 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_0o4kl"]
 radius = 5.0
 
+[sub_resource type="Animation" id="Animation_e5fes"]
+resource_name = "jump"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioStreamPlayer2D:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_ctyjr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioStreamPlayer2D:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_stjsk"]
+_data = {
+"RESET": SubResource("Animation_ctyjr"),
+"jump": SubResource("Animation_e5fes")
+}
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 5
 collision_layer = 2
@@ -186,3 +224,12 @@ frame_progress = 0.959219
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -5)
 shape = SubResource("CircleShape2D_0o4kl")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_s768p")
+bus = &"sfx"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_stjsk")
+}
