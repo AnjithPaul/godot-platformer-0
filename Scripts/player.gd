@@ -14,6 +14,7 @@ var leave_floor_time = 0.0
 var can_jump = false
 var speed = MIN_SPEED
 var previous_direction
+var coyote_enabled
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
 	
@@ -25,10 +26,12 @@ func _physics_process(delta):
 	# Handle coyote time.
 	if is_on_floor():
 		leave_floor_time = 0.0
-		can_jump = true 
-	else:
-		if !Input.is_action_pressed("jump"):
-			leave_floor_time += delta
+		jump_pressed_time = 0.0
+		can_jump = true
+		coyote_enabled = true 
+	elif coyote_enabled:
+		print("increasing coyote time")
+		leave_floor_time += delta
 		if leave_floor_time < COYOTE_TIME:
 			can_jump = true
 		else:
@@ -37,12 +40,15 @@ func _physics_process(delta):
 	# Update jump_pressed_time.
 	if can_jump and Input.is_action_pressed("jump"):
 		jump_pressed_time += delta
-	else:
-		jump_pressed_time = 0.0
+		print(jump_pressed_time)
 
 	# Handle jump.
 	if can_jump and Input.is_action_pressed("jump") and jump_pressed_time < MAX_JUMP_TIME:
 		velocity.y = JUMP_VELOCITY
+		coyote_enabled = false
+		
+	if Input.is_action_just_released("jump"):
+		can_jump = false
 
 	# Get the input direction and handle the movement/deceleration.
 	var direction = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")

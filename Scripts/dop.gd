@@ -11,9 +11,6 @@ var y_offset
 var t = 0.0
 
 
-
-
-
 func _ready():
 	screen_size = get_viewport_rect().size
 	y_offset = screen_size.y / 6
@@ -27,7 +24,6 @@ func _on_viewport_resize():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-
 	var player_position = player.get_global_transform_with_canvas().origin
 	var player_center_offset = player_position - screen_size / 2
 	var y_deadzone = abs(player_center_offset.y) < y_offset
