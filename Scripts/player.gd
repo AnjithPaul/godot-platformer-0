@@ -31,7 +31,6 @@ func _physics_process(delta):
 		can_jump = true
 		coyote_enabled = true 
 	elif coyote_enabled:
-		print("increasing coyote time")
 		leave_floor_time += delta
 		if leave_floor_time < COYOTE_TIME:
 			can_jump = true
@@ -48,7 +47,6 @@ func _physics_process(delta):
 	# Update jump_pressed_time.
 	if can_jump and Input.is_action_pressed("jump"):
 		jump_pressed_time += delta
-		print(jump_pressed_time)
 		
 	if Input.is_action_just_released("jump"):
 		can_jump = false
