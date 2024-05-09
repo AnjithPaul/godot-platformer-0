@@ -27,6 +27,10 @@ window/size/mode=4
 window/stretch/mode="viewport"
 window/stretch/aspect="keep_height"
 
+[dotnet]
+
+project/assembly_name="Game Dev Reboot"
+
 [input]
 
 jump={
