@@ -15,9 +15,9 @@ func _ready():
 	level_time = 0.0
 	finished = false
 	fastest_time = load_fastest_time()
-	print(fastest_time)
-	save_fastest_time(999999)
-	print(load_fastest_time())
+	#print(fastest_time)
+	#save_fastest_time(999999)
+	#print(load_fastest_time())
 	var seconds:float = fmod(fastest_time , 60.0)
 	var minutes:int   =  int(fastest_time / 60.0) % 60
 	var hours:  int   =  int(fastest_time / 3600.0)
