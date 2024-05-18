@@ -2,17 +2,12 @@ extends Node
 
 @onready var finish_screen = %"Finish Screen"
 @onready var pause_menu = %"Pause Menu"
-@onready var score_label = $score_label
-@onready var time_label = $time_label
-@onready var highscore = $highscore
-@onready var timer = $Timer
 @onready var coins = $"../coins"
+
 var score = 0
 var level_time = 0.0
 var finished = false
 var fastest_time
-var time_hhmmss:String
-var fastest_time_hhmmss:String
 var total_coins
 
 const SAVE_PATH = "user://save_config_file.ini"
@@ -20,8 +15,8 @@ const SAVE_PATH = "user://save_config_file.ini"
 func _ready():
 	level_time = 0.0
 	finished = false
+	#save_fastest_time(9999)	 # add to debug new higscore
 	fastest_time = load_fastest_time()
-	#fastest_time = 99999
 	total_coins = coins.get_child_count()
 	
 	
@@ -45,8 +40,8 @@ func finish_level():
 		fastest_time = level_time
 		save_fastest_time(level_time)
 	print(is_new_highscore)
-	time_hhmmss = get_hhmmss(level_time)
-	fastest_time_hhmmss = get_hhmmss(fastest_time)
+	var time_hhmmss = get_hhmmss(level_time)
+	var fastest_time_hhmmss = get_hhmmss(fastest_time)
 	finish_screen.level_complete(str(score) + " / " + str(total_coins), time_hhmmss, fastest_time_hhmmss, is_new_highscore)
 
 
@@ -54,7 +49,7 @@ func get_hhmmss(time):
 	var seconds:float = fmod(time , 60.0)
 	var minutes:int   =  int(time / 60.0) % 60
 	var hours:  int   =  int(time / 3600.0)
-	time_hhmmss = "%02d:%02d:%05.2f" % [hours, minutes, seconds]
+	var time_hhmmss = "%02d:%02d:%05.2f" % [hours, minutes, seconds]
 	return time_hhmmss
 	
 	
