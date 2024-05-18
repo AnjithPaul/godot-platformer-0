@@ -1,8 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://dmvwvpwm72kdm"]
+[gd_scene load_steps=8 format=3 uid="uid://dmvwvpwm72kdm"]
 
 [ext_resource type="Script" path="res://Scenes/pause_menu.gd" id="1_nc433"]
 [ext_resource type="FontFile" uid="uid://bdexhp23v28df" path="res://Assets/fonts/PixelOperator8-Bold.ttf" id="1_xalsj"]
 [ext_resource type="StyleBox" uid="uid://bx8l5dy2vcq0i" path="res://styles/pause_menu_button_hover.tres" id="2_r1hgi"]
+[ext_resource type="Shader" path="res://Shaders/blur.gdshader" id="4_5s3lf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1g14p"]
+shader = ExtResource("4_5s3lf")
+shader_parameter/amount = 3.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2ikk3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k5bkx"]
 content_margin_top = 14.0
@@ -11,7 +18,17 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 [node name="Pause Menu" type="CanvasLayer"]
 script = ExtResource("1_nc433")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+material = SubResource("ShaderMaterial_1g14p")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="Panel" type="Panel" parent="."]
+material = SubResource("ShaderMaterial_2ikk3")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

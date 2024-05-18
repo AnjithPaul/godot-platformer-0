@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://o0aj4t8d67xy"]
+[gd_scene load_steps=25 format=3 uid="uid://o0aj4t8d67xy"]
 
 [ext_resource type="PackedScene" uid="uid://b58xk3eqtnwk2" path="res://Scenes/player.tscn" id="1_4esc1"]
 [ext_resource type="Script" path="res://Scripts/dop.gd" id="1_bbh86"]
@@ -13,6 +13,7 @@
 [ext_resource type="FontFile" uid="uid://bdexhp23v28df" path="res://Assets/fonts/PixelOperator8-Bold.ttf" id="9_eu18v"]
 [ext_resource type="PackedScene" uid="uid://dmvwvpwm72kdm" path="res://Scenes/pause_menu.tscn" id="13_57fv5"]
 [ext_resource type="PackedScene" uid="uid://c32ojmv5h0pgo" path="res://Scenes/finish_flag.tscn" id="13_lgaw7"]
+[ext_resource type="PackedScene" uid="uid://pbadj4vkcnpg" path="res://Scenes/finish_screen.tscn" id="14_lgavt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hlpjd"]
 texture = ExtResource("2_2qxax")
@@ -744,6 +745,10 @@ position_smoothing_enabled = true
 editor_draw_limits = true
 
 [node name="Pause Menu" parent="dop" instance=ExtResource("13_57fv5")]
+unique_name_in_owner = true
+visible = false
+
+[node name="Finish Screen" parent="." instance=ExtResource("14_lgavt")]
 unique_name_in_owner = true
 visible = false
 
