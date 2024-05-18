@@ -28,6 +28,9 @@ func _ready():
 	
 	
 func _process(delta: float):
+	if Input.is_action_just_pressed("Pause"):
+		pass
+		
 	if !finished:
 		level_time += delta
 	var seconds:float = fmod(level_time , 60.0)
@@ -66,3 +69,6 @@ func load_fastest_time():
 	if err != OK:
 		return 9999999
 	return config.get_value("player", "fastest_time")
+	
+func pause_menu():
+	pass

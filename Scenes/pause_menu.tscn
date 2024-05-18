@@ -1,0 +1,72 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmvwvpwm72kdm"]
+
+[ext_resource type="FontFile" uid="uid://bdexhp23v28df" path="res://Assets/fonts/PixelOperator8-Bold.ttf" id="1_xalsj"]
+[ext_resource type="StyleBox" uid="uid://bx8l5dy2vcq0i" path="res://styles/pause_menu_button_hover.tres" id="2_r1hgi"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k5bkx"]
+content_margin_top = 14.0
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="Pause Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Panel" type="Panel" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(1728, 1117)
+
+[node name="Button" type="Button" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -482.0
+offset_top = -328.0
+offset_right = 498.0
+offset_bottom = -168.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.203322, 0.203322, 0.203322, 1)
+theme_override_colors/font_hover_color = Color(2.88785e-06, 0.94849, 0.710874, 1)
+theme_override_colors/font_hover_pressed_color = Color(2.88785e-06, 0.94849, 0.710874, 1)
+theme_override_fonts/font = ExtResource("1_xalsj")
+theme_override_font_sizes/font_size = 160
+theme_override_styles/normal = SubResource("StyleBoxFlat_k5bkx")
+theme_override_styles/hover = ExtResource("2_r1hgi")
+text = "RESUME"
+
+[node name="Button2" type="Button" parent="CanvasLayer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -290.0
+offset_top = -62.0
+offset_right = 290.0
+offset_bottom = 98.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.203322, 0.203322, 0.203322, 1)
+theme_override_colors/font_hover_color = Color(2.88785e-06, 0.94849, 0.710874, 1)
+theme_override_colors/font_hover_pressed_color = Color(2.88785e-06, 0.94849, 0.710874, 1)
+theme_override_fonts/font = ExtResource("1_xalsj")
+theme_override_font_sizes/font_size = 160
+theme_override_styles/normal = SubResource("StyleBoxFlat_k5bkx")
+theme_override_styles/hover = ExtResource("2_r1hgi")
+text = "QUIT"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://o0aj4t8d67xy"]
+[gd_scene load_steps=24 format=3 uid="uid://o0aj4t8d67xy"]
 
 [ext_resource type="PackedScene" uid="uid://b58xk3eqtnwk2" path="res://Scenes/player.tscn" id="1_4esc1"]
 [ext_resource type="Script" path="res://Scripts/dop.gd" id="1_bbh86"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cargw66oo5rmg" path="res://Scenes/slime.tscn" id="6_or74a"]
 [ext_resource type="FontFile" uid="uid://dd1ekni4opnte" path="res://Assets/fonts/PixelOperator8.ttf" id="7_fs3x8"]
 [ext_resource type="FontFile" uid="uid://bdexhp23v28df" path="res://Assets/fonts/PixelOperator8-Bold.ttf" id="9_eu18v"]
+[ext_resource type="PackedScene" uid="uid://dmvwvpwm72kdm" path="res://Scenes/pause_menu.tscn" id="13_57fv5"]
 [ext_resource type="PackedScene" uid="uid://c32ojmv5h0pgo" path="res://Scenes/finish_flag.tscn" id="13_lgaw7"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hlpjd"]
@@ -517,16 +518,6 @@ _data = {
 
 [node name="Game" type="Node2D"]
 
-[node name="dop" type="Node2D" parent="."]
-script = ExtResource("1_bbh86")
-
-[node name="Camera2D" type="Camera2D" parent="dop"]
-unique_name_in_owner = true
-zoom = Vector2(5, 5)
-limit_bottom = 120
-position_smoothing_enabled = true
-editor_draw_limits = true
-
 [node name="game_manager" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("1_hxom3")
@@ -741,5 +732,17 @@ position = Vector2(2378, -61)
 
 [node name="FinishFlag" parent="." instance=ExtResource("13_lgaw7")]
 position = Vector2(2930, -64)
+
+[node name="dop" type="Node2D" parent="."]
+script = ExtResource("1_bbh86")
+
+[node name="Camera2D" type="Camera2D" parent="dop"]
+unique_name_in_owner = true
+zoom = Vector2(5, 5)
+limit_bottom = 120
+position_smoothing_enabled = true
+editor_draw_limits = true
+
+[node name="Pause Menu" parent="dop" instance=ExtResource("13_57fv5")]
 
 [connection signal="timeout" from="game_manager/Timer" to="game_manager" method="_on_timer_timeout"]
