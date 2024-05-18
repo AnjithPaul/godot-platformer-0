@@ -744,5 +744,7 @@ position_smoothing_enabled = true
 editor_draw_limits = true
 
 [node name="Pause Menu" parent="dop" instance=ExtResource("13_57fv5")]
+unique_name_in_owner = true
+visible = false
 
 [connection signal="timeout" from="game_manager/Timer" to="game_manager" method="_on_timer_timeout"]

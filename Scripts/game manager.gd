@@ -1,5 +1,6 @@
 extends Node
 
+@onready var pause_menu = %"Pause Menu"
 @onready var score_label = $score_label
 @onready var time_label = $time_label
 @onready var highscore = $highscore
@@ -29,7 +30,7 @@ func _ready():
 	
 func _process(delta: float):
 	if Input.is_action_just_pressed("Pause"):
-		pass
+		toggle_pause()
 		
 	if !finished:
 		level_time += delta
@@ -70,5 +71,6 @@ func load_fastest_time():
 		return 9999999
 	return config.get_value("player", "fastest_time")
 	
-func pause_menu():
-	pass
+func toggle_pause():
+	pause_menu.visible = true if pause_menu.visible == false else false
+	Engine.time_scale = 0 if Engine.time_scale == 1 else 1

@@ -1,5 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dmvwvpwm72kdm"]
+[gd_scene load_steps=5 format=3 uid="uid://dmvwvpwm72kdm"]
 
+[ext_resource type="Script" path="res://Scenes/pause_menu.gd" id="1_nc433"]
 [ext_resource type="FontFile" uid="uid://bdexhp23v28df" path="res://Assets/fonts/PixelOperator8-Bold.ttf" id="1_xalsj"]
 [ext_resource type="StyleBox" uid="uid://bx8l5dy2vcq0i" path="res://styles/pause_menu_button_hover.tres" id="2_r1hgi"]
 
@@ -7,17 +8,10 @@
 content_margin_top = 14.0
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="Pause Menu" type="Control"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Pause Menu" type="CanvasLayer"]
+script = ExtResource("1_nc433")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Panel" type="Panel" parent="CanvasLayer"]
+[node name="Panel" type="Panel" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -25,7 +19,7 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(1728, 1117)
 
-[node name="Button" type="Button" parent="CanvasLayer/Panel"]
+[node name="resume" type="Button" parent="Panel"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -48,7 +42,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_k5bkx")
 theme_override_styles/hover = ExtResource("2_r1hgi")
 text = "RESUME"
 
-[node name="Button2" type="Button" parent="CanvasLayer/Panel"]
+[node name="quit" type="Button" parent="Panel"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -70,3 +64,6 @@ theme_override_font_sizes/font_size = 160
 theme_override_styles/normal = SubResource("StyleBoxFlat_k5bkx")
 theme_override_styles/hover = ExtResource("2_r1hgi")
 text = "QUIT"
+
+[connection signal="pressed" from="Panel/resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Panel/quit" to="." method="_on_quit_pressed"]
