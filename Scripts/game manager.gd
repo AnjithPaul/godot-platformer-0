@@ -1,6 +1,7 @@
 extends Node
 
 @onready var finish_screen = %"Finish Screen"
+@onready var pause_button = %"Pause Button"
 @onready var pause_menu = %"Pause Menu"
 @onready var coins = $"../coins"
 
@@ -68,5 +69,6 @@ func load_fastest_time():
 	
 	
 func toggle_pause():
-	pause_menu.visible = true if pause_menu.visible == false else false
+	pause_menu.visible = false if pause_menu.visible else true
+	pause_button.visible = false if pause_menu.visible else true
 	Engine.time_scale = 0 if Engine.time_scale == 1 else 1

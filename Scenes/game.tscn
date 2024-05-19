@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://o0aj4t8d67xy"]
+[gd_scene load_steps=28 format=3 uid="uid://o0aj4t8d67xy"]
 
 [ext_resource type="PackedScene" uid="uid://b58xk3eqtnwk2" path="res://Scenes/player.tscn" id="1_4esc1"]
 [ext_resource type="Script" path="res://Scripts/dop.gd" id="1_bbh86"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dmvwvpwm72kdm" path="res://Scenes/pause_menu.tscn" id="13_57fv5"]
 [ext_resource type="PackedScene" uid="uid://c32ojmv5h0pgo" path="res://Scenes/finish_flag.tscn" id="13_lgaw7"]
 [ext_resource type="PackedScene" uid="uid://pbadj4vkcnpg" path="res://Scenes/finish_screen.tscn" id="14_lgavt"]
+[ext_resource type="PackedScene" uid="uid://b8ysu0ndduv7k" path="res://Scenes/pause_button.tscn" id="14_q2euo"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hlpjd"]
 texture = ExtResource("2_2qxax")
@@ -478,6 +479,21 @@ _data = {
 "move": SubResource("Animation_01o5m")
 }
 
+[sub_resource type="Animation" id="Animation_kpbbp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(671, -44)]
+}
+
 [sub_resource type="Animation" id="Animation_nnjax"]
 resource_name = "move"
 length = 1.5
@@ -493,21 +509,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(671, -44), Vector2(782, -46)]
-}
-
-[sub_resource type="Animation" id="Animation_kpbbp"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(671, -44)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_r625c"]
@@ -817,3 +818,6 @@ visible = false
 [node name="Finish Screen" parent="." instance=ExtResource("14_lgavt")]
 unique_name_in_owner = true
 visible = false
+
+[node name="Pause Button" parent="." instance=ExtResource("14_q2euo")]
+unique_name_in_owner = true

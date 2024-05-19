@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://dmvwvpwm72kdm"]
 
-[ext_resource type="Script" path="res://Scenes/pause_menu.gd" id="1_nc433"]
+[ext_resource type="Script" path="res://Scripts/pause_menu.gd" id="1_nc433"]
 [ext_resource type="FontFile" uid="uid://bdexhp23v28df" path="res://Assets/fonts/PixelOperator8-Bold.ttf" id="1_xalsj"]
 [ext_resource type="StyleBox" uid="uid://bx8l5dy2vcq0i" path="res://styles/pause_menu_button_hover.tres" id="2_r1hgi"]
 [ext_resource type="Shader" path="res://Shaders/blur.gdshader" id="4_5s3lf"]
