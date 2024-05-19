@@ -18,6 +18,7 @@ var coyote_enabled
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var animation_player = $AnimationPlayer
+@onready var touch_controls = %"Touch Controls"
 
 func _physics_process(delta):
 	# Add gravity.
@@ -52,7 +53,7 @@ func _physics_process(delta):
 		can_jump = false
 
 	# Get the input direction and handle the movement/deceleration.
-	var direction = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	var direction = get_direction()
 
 	if is_on_floor():
 		if direction == 0:
@@ -74,3 +75,6 @@ func _physics_process(delta):
 	previous_direction = direction
 	velocity.x = direction * speed
 	move_and_slide()
+
+func get_direction():
+	return sign(touch_controls.get_swipe_direction() + Input.get_action_strength("move_right") - Input.get_action_strength("move_left"))
