@@ -1,0 +1,146 @@
+[gd_scene load_steps=8 format=3 uid="uid://pbadj4vkcnpg"]
+
+[ext_resource type="Script" path="res://Scripts/Finish Screen.gd" id="1_166ok"]
+[ext_resource type="Shader" path="res://Shaders/blur.gdshader" id="2_1vhju"]
+[ext_resource type="FontFile" uid="uid://dd1ekni4opnte" path="res://Assets/fonts/PixelOperator8.ttf" id="2_kyi56"]
+[ext_resource type="StyleBox" uid="uid://x3dicihjalhl" path="res://styles/button_normal.tres" id="3_6vyvy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rj6pp"]
+shader = ExtResource("2_1vhju")
+shader_parameter/amount = 3.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arxyu"]
+bg_color = Color(0.0862745, 0.0862745, 0.0862745, 0.717647)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_55q0y"]
+content_margin_left = 16.0
+content_margin_top = 32.0
+content_margin_right = 24.0
+content_margin_bottom = 40.0
+bg_color = Color(0, 0.768627, 0.576471, 1)
+
+[node name="Finish Screen" type="CanvasLayer"]
+script = ExtResource("1_166ok")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_rj6pp")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_arxyu")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 720.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_top = 480
+theme_override_constants/margin_right = 80
+theme_override_constants/margin_bottom = 80
+
+[node name="new highscore" type="Label" parent="Panel/MarginContainer"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.768627, 0.576471, 1)
+theme_override_colors/font_shadow_color = Color(0, 0.227371, 0.257702, 1)
+theme_override_constants/shadow_offset_x = 16
+theme_override_constants/shadow_offset_y = 16
+theme_override_fonts/font = ExtResource("2_kyi56")
+theme_override_font_sizes/font_size = 160
+text = "NEW HIGHSCORE !!!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -124.0
+offset_bottom = 124.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 160
+theme_override_constants/margin_top = 160
+theme_override_constants/margin_right = 160
+theme_override_constants/margin_bottom = 160
+
+[node name="GridContainer" type="GridContainer" parent="Panel/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/v_separation = 32
+columns = 2
+
+[node name="coin label" type="Label" parent="Panel/MarginContainer2/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kyi56")
+theme_override_font_sizes/font_size = 80
+text = "coins collected : "
+horizontal_alignment = 2
+
+[node name="coin count" type="Label" parent="Panel/MarginContainer2/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kyi56")
+theme_override_font_sizes/font_size = 80
+text = "0 / 25"
+
+[node name="time label" type="Label" parent="Panel/MarginContainer2/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kyi56")
+theme_override_font_sizes/font_size = 80
+text = "time took to complete level : "
+horizontal_alignment = 2
+
+[node name="time" type="Label" parent="Panel/MarginContainer2/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kyi56")
+theme_override_font_sizes/font_size = 80
+text = "0:00:00"
+
+[node name="highscore label" type="Label" parent="Panel/MarginContainer2/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kyi56")
+theme_override_font_sizes/font_size = 80
+text = "fastest time : "
+horizontal_alignment = 2
+
+[node name="highscore" type="Label" parent="Panel/MarginContainer2/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kyi56")
+theme_override_font_sizes/font_size = 80
+text = "0:00:00"
+
+[node name="MarginContainer3" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -88.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 480
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 480
+theme_override_constants/margin_bottom = 480
+
+[node name="Button" type="Button" parent="Panel/MarginContainer3"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_kyi56")
+theme_override_font_sizes/font_size = 80
+theme_override_styles/normal = ExtResource("3_6vyvy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_55q0y")
+text = "Restart level"
+
+[connection signal="pressed" from="Panel/MarginContainer3/Button" to="." method="_on_button_pressed"]

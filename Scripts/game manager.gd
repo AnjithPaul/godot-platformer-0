@@ -1,64 +1,63 @@
 extends Node
 
-@onready var score_label = $score_label
-@onready var time_label = $time_label
-@onready var highscore = $highscore
-@onready var timer = $Timer
+@onready var finish_screen = %"Finish Screen"
+@onready var pause_menu = %"Pause Menu"
+@onready var coins = $"../coins"
+
 var score = 0
 var level_time = 0.0
 var finished = false
 var fastest_time
+var total_coins
 
 const SAVE_PATH = "user://save_config_file.ini"
 
 func _ready():
 	level_time = 0.0
 	finished = false
+	#save_fastest_time(9999)	 # add to debug new higscore
 	fastest_time = load_fastest_time()
-	print(fastest_time)
-	save_fastest_time(999999)
-	print(load_fastest_time())
-	var seconds:float = fmod(fastest_time , 60.0)
-	var minutes:int   =  int(fastest_time / 60.0) % 60
-	var hours:  int   =  int(fastest_time / 3600.0)
-	var hs_hhmmss_string:String = "%02d:%02d:%05.2f" % [hours, minutes, seconds]
-	highscore.text = "Your fastest time so far: " + hs_hhmmss_string
-	highscore.visible = false
-	time_label.visible = false
+	total_coins = coins.get_child_count()
 	
 	
 func _process(delta: float):
+	if Input.is_action_just_pressed("Pause"):
+		toggle_pause()
+		
 	if !finished:
 		level_time += delta
-	var seconds:float = fmod(level_time , 60.0)
-	var minutes:int   =  int(level_time / 60.0) % 60
-	var hours:  int   =  int(level_time / 3600.0)
-	var hhmmss_string:String = "%02d:%02d:%05.2f" % [hours, minutes, seconds]
-	
-	time_label.text = "Congrats! You have finished the level in " + hhmmss_string
+
 
 func add_point():
 	score += 1
-	score_label.text = "You collected " + str(score) + "coins."
+
 
 func finish_level():
 	finished = true
+	var is_new_highscore = false
 	if (level_time < fastest_time):
+		is_new_highscore = true
+		fastest_time = level_time
 		save_fastest_time(level_time)
-		highscore.text = "NEW RECORD TIME !!!"
-		highscore.add_theme_font_size_override("font_size",16)
-		print("NEW HIGHSCORE")
-	highscore.visible = true
-	time_label.visible = true
-	timer.start()
+	print(is_new_highscore)
+	var time_hhmmss = get_hhmmss(level_time)
+	var fastest_time_hhmmss = get_hhmmss(fastest_time)
+	finish_screen.level_complete(str(score) + " / " + str(total_coins), time_hhmmss, fastest_time_hhmmss, is_new_highscore)
 
-func _on_timer_timeout():
-	get_tree().reload_current_scene()
 
+func get_hhmmss(time):
+	var seconds:float = fmod(time , 60.0)
+	var minutes:int   =  int(time / 60.0) % 60
+	var hours:  int   =  int(time / 3600.0)
+	var time_hhmmss = "%02d:%02d:%05.2f" % [hours, minutes, seconds]
+	return time_hhmmss
+	
+	
 func save_fastest_time(time):
 	var config = ConfigFile.new()
 	config.set_value("player", "fastest_time", time)
 	config.save(SAVE_PATH)
+	
 	
 func load_fastest_time():
 	var config = ConfigFile.new()
@@ -66,3 +65,8 @@ func load_fastest_time():
 	if err != OK:
 		return 9999999
 	return config.get_value("player", "fastest_time")
+	
+	
+func toggle_pause():
+	pause_menu.visible = true if pause_menu.visible == false else false
+	Engine.time_scale = 0 if Engine.time_scale == 1 else 1
