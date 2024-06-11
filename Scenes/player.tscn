@@ -1,8 +1,9 @@
-[gd_scene load_steps=30 format=3 uid="uid://b58xk3eqtnwk2"]
+[gd_scene load_steps=31 format=3 uid="uid://b58xk3eqtnwk2"]
 
 [ext_resource type="Texture2D" uid="uid://cqtp4c3rrw0au" path="res://Assets/sprites/knight.png" id="1_5ejf3"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_50ajm"]
 [ext_resource type="AudioStream" uid="uid://b260rfqd1aons" path="res://Assets/sounds/jump.wav" id="3_s768p"]
+[ext_resource type="Texture2D" uid="uid://uyeaxk10lbuw" path="res://Assets/sprites/point_light.png" id="4_mn82v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6g8qx"]
 atlas = ExtResource("1_5ejf3")
@@ -233,3 +234,9 @@ bus = &"sfx"
 libraries = {
 "": SubResource("AnimationLibrary_stjsk")
 }
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(0, -6)
+energy = 0.4
+texture = ExtResource("4_mn82v")
+texture_scale = 0.5

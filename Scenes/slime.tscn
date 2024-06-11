@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://cargw66oo5rmg"]
+[gd_scene load_steps=11 format=3 uid="uid://cargw66oo5rmg"]
 
 [ext_resource type="Script" path="res://Scripts/slime.gd" id="1_1wnad"]
 [ext_resource type="Texture2D" uid="uid://dnk5pljibu2ya" path="res://Assets/sprites/slime_green.png" id="1_e6scd"]
 [ext_resource type="PackedScene" uid="uid://cexhiv7ubhj01" path="res://Scenes/kill_zone.tscn" id="2_m42ge"]
+[ext_resource type="Texture2D" uid="uid://uyeaxk10lbuw" path="res://Assets/sprites/point_light.png" id="4_hmcrg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uevi2"]
 atlas = ExtResource("1_e6scd")
@@ -65,3 +66,9 @@ target_position = Vector2(11, 0)
 [node name="RayCastLeft" type="RayCast2D" parent="."]
 position = Vector2(0, 5)
 target_position = Vector2(-13, 0)
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(0, 6)
+color = Color(0, 1, 0.0833333, 1)
+texture = ExtResource("4_hmcrg")
+texture_scale = 0.5
