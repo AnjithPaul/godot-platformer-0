@@ -36,19 +36,26 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(1728, 1117)
 
-[node name="resume" type="Button" parent="Panel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 14
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -482.0
-offset_top = -328.0
-offset_right = 498.0
-offset_bottom = -168.0
 grow_horizontal = 2
 grow_vertical = 2
+alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_bottom = 80
+
+[node name="GridContainer" type="GridContainer" parent="Panel/HBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/v_separation = 80
+
+[node name="resume" type="Button" parent="Panel/HBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.203322, 0.203322, 0.203322, 1)
 theme_override_colors/font_hover_color = Color(2.88785e-06, 0.94849, 0.710874, 1)
@@ -59,19 +66,8 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_k5bkx")
 theme_override_styles/hover = ExtResource("2_r1hgi")
 text = "RESUME"
 
-[node name="quit" type="Button" parent="Panel"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -290.0
-offset_top = -62.0
-offset_right = 290.0
-offset_bottom = 98.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="quit" type="Button" parent="Panel/HBoxContainer/MarginContainer/GridContainer"]
+layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_colors/font_pressed_color = Color(0.203322, 0.203322, 0.203322, 1)
 theme_override_colors/font_hover_color = Color(2.88785e-06, 0.94849, 0.710874, 1)
@@ -82,5 +78,5 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_k5bkx")
 theme_override_styles/hover = ExtResource("2_r1hgi")
 text = "QUIT"
 
-[connection signal="pressed" from="Panel/resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="Panel/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Panel/HBoxContainer/MarginContainer/GridContainer/resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Panel/HBoxContainer/MarginContainer/GridContainer/quit" to="." method="_on_quit_pressed"]
