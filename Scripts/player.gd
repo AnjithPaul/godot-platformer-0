@@ -13,7 +13,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var jump_pressed_time = 0.0
 var leave_floor_time = 0.0
 var can_jump = false
-var is_jump = false
+#var is_jump = false
 var speed = MIN_SPEED
 var previous_direction
 var coyote_enabled
@@ -26,6 +26,7 @@ var drag_dist = Vector2.ZERO
 var jump_index
 var jump_index_validty = false
 var screen_mid
+var frame_delta
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var animation_player = $AnimationPlayer
@@ -36,8 +37,9 @@ func _ready():
 	screen_mid = get_viewport_rect().get_center().x
 	
 func _physics_process(delta):
+	frame_delta = delta
 
-	print("jump validity: ", jump_index_validty)
+	#print("jump validity: ", jump_index_validty)
 	#if(is_jump):
 		#print("jumping...")
 	#if(can_jump):
@@ -60,19 +62,22 @@ func _physics_process(delta):
 			can_jump = false
 
 	# Handle jump.
-	if can_jump and get_jump() and jump_pressed_time < MAX_JUMP_TIME:
-		velocity.y = JUMP_VELOCITY
-		#print("jumping")
-		if jump_pressed_time == 0.0:
-			animation_player.play("jump")
-		coyote_enabled = false
+	if get_jump():
+		jump()
 		
-	#if jump_pressed_time > MAX_JUMP_TIME:
-		#print("jump time over")
-	
-	# Update jump_pressed_time.
-	if can_jump and get_jump():
-		jump_pressed_time += delta
+	#if can_jump and get_jump() and jump_pressed_time < MAX_JUMP_TIME:
+		#velocity.y = JUMP_VELOCITY
+		##print("jumping")
+		#if jump_pressed_time == 0.0:
+			#animation_player.play("jump")
+		#coyote_enabled = false
+		#
+	##if jump_pressed_time > MAX_JUMP_TIME:
+		##print("jump time over")
+	#
+	## Update jump_pressed_time.
+	#if can_jump and get_jump():
+		#jump_pressed_time += delta
 		
 	if Input.is_action_just_released("jump"):
 		can_jump = false
@@ -123,12 +128,14 @@ func _input(event):
 			elif !jump_index_validty and event.position.x > screen_mid:
 				jump_index = event.index
 				jump_index_validty = true
-				is_jump = true
+				jump()
+				#is_jump = true
 				#print("event position:", event.position.x)
 				#print("screen center:", screen_mid)
 				#print("jump index detected")
 			else:
 				jump_index_validty = false
+				can_jump = false
 				print("else block")
 				#print("drag index validty", drag_index_validity)
 				print("jump index validty: ", jump_index_validty)
@@ -140,7 +147,7 @@ func _input(event):
 				jump_index:
 					print("jump not pressed")
 					jump_index_validty = false
-					is_jump = false
+					#is_jump = false
 					can_jump = false
 					#print("can't jump")
 					
@@ -157,6 +164,7 @@ func _input(event):
 			drag_dist = event.position - ini_pos
 			#direction = sign(drag_dist.x) if abs(drag_dist.x) > MIN_DRAG_DIST else 0
 		elif event.index == jump_index:
+			jump()
 			print("jump dragging")
 			#jump_index_validty = false
 		#print(ini_pos)
@@ -176,7 +184,7 @@ func _input(event):
 				drag_index_validity = false
 				drag_dist = Vector2.ZERO
 			jump_index:
-				is_jump = false
+				#is_jump = false
 				print("jump released")
 				jump_index_validty = false
 				can_jump = false
@@ -185,14 +193,22 @@ func _input(event):
 		if event.index == jump_index:
 			print("elsy")
 			jump_index_validty = false
+			can_jump = false
 		
-#func jump():
-	#if can_jump and jump_pressed_time < MAX_JUMP_TIME:
-		#velocity.y = JUMP_VELOCITY
-		#if jump_pressed_time == 0.0:
-			#animation_player.play("jump")
-		#coyote_enabled = false
 
+func jump():
+	if !can_jump:
+		return
+	if jump_pressed_time < MAX_JUMP_TIME:
+		velocity.y = JUMP_VELOCITY
+		#print("jumping")
+		if jump_pressed_time == 0.0:
+			animation_player.play("jump")
+		coyote_enabled = false
+	
+	# Update jump_pressed_time.
+	jump_pressed_time += frame_delta
+		
 func get_direction():
 	return sign(sign(drag_dist.x) if abs(drag_dist.x) > MIN_DRAG_DIST else 0 + Input.get_action_strength("move_right") - Input.get_action_strength("move_left"))
 	
