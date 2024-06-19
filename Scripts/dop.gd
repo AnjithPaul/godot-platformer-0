@@ -4,7 +4,7 @@ const X_OFFSET = 100
 const LERP_SPEED = 1.0     # Object lerp speed (adjust for desired smoothness)
 
 @onready var player = %Player
-@onready var camera_2d = %Camera2D
+@onready var camera_2d = %camera
 
 var screen_size
 var y_offset

@@ -3,7 +3,7 @@ extends CanvasLayer
 @onready var coin_count = $"Panel/MarginContainer2/GridContainer/coin count"
 @onready var time_label = $Panel/MarginContainer2/GridContainer/time
 @onready var highscore = $Panel/MarginContainer2/GridContainer/highscore
-@onready var new_highscore_label = $"Panel/MarginContainer/new highscore"
+@onready var new_highscore_label = $"Panel/VBoxContainer/MarginContainer/new highscore"
 
 
 func level_complete(coin, time, prev_highscore, is_new_highscore:bool):

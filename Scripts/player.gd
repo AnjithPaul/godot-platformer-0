@@ -24,7 +24,7 @@ var drag_index
 var drag_index_validity = false
 var drag_dist = Vector2.ZERO
 var jump_index
-var jump_index_validty = false
+var jump_index_validity = false
 var screen_mid
 var frame_delta
 
@@ -50,6 +50,7 @@ func _physics_process(delta):
 
 	# Handle coyote time.
 	if is_on_floor():
+		#print("on the floor")
 		leave_floor_time = 0.0
 		jump_pressed_time = 0.0
 		can_jump = true
@@ -63,7 +64,7 @@ func _physics_process(delta):
 
 	# Handle jump.
 	if get_jump():
-		jump()
+		jump("physics process")
 		
 	#if can_jump and get_jump() and jump_pressed_time < MAX_JUMP_TIME:
 		#velocity.y = JUMP_VELOCITY
@@ -125,28 +126,37 @@ func _input(event):
 				drag_index_validity = true
 				ini_pos = event.position
 				#print("drag index detected")
-			elif !jump_index_validty and event.position.x > screen_mid:
+			if !jump_index_validity and event.position.x > screen_mid:
 				jump_index = event.index
-				jump_index_validty = true
-				jump()
+				print("setting jump index: ", event.index)
+				jump_index_validity = true
+				#_enable_jump_index()
+				jump("input touch")
 				#is_jump = true
 				#print("event position:", event.position.x)
 				#print("screen center:", screen_mid)
 				#print("jump index detected")
-			else:
-				jump_index_validty = false
-				can_jump = false
-				print("else block")
-				#print("drag index validty", drag_index_validity)
-				print("jump index validty: ", jump_index_validty)
+			#else:
+				#print("jump index validty: ", jump_index_validity)
+				#print ("can jump: ", can_jump)
+				#print("drag index validty: ", drag_index_validity)
+				##print("event position", event.position.x)
+				#
+				#jump_index_validity = false
+				#
+				#can_jump = false
+				#print("else block")
+				##print("drag index validty", drag_index_validity)
+				
 		else:
-			match event.index:
-				drag_index:
-					drag_index_validity = false
-					drag_dist = Vector2.ZERO
-				jump_index:
+			print("drag release: ", event.index)
+			print("jump_index: ", jump_index)
+			if event.index == drag_index:
+				drag_index_validity = false
+				drag_dist = Vector2.ZERO
+			if event.index == jump_index:
 					print("jump not pressed")
-					jump_index_validty = false
+					jump_index_validity = false
 					#is_jump = false
 					can_jump = false
 					#print("can't jump")
@@ -164,8 +174,10 @@ func _input(event):
 			drag_dist = event.position - ini_pos
 			#direction = sign(drag_dist.x) if abs(drag_dist.x) > MIN_DRAG_DIST else 0
 		elif event.index == jump_index:
-			jump()
-			print("jump dragging")
+			#TODO: not able to differentiate between drag and hold with drag and release
+			#_enable_jump_index()
+			jump("input drag")
+			print("jump dragging", event.index)
 			#jump_index_validty = false
 		#print(ini_pos)
 		#print(event.position)
@@ -176,41 +188,53 @@ func _input(event):
 		#var touch_index = event.index
 		#if (event.pressed and event.index == touch_index and event.position.x > camera.get_screen_center_position().x) or Input.is_action_pressed("jump"):
 			#is_jump = true
-	if !is_drag and !event.is_pressed() and !(event is InputEventMouseMotion or event is InputEventMouseButton or event is InputEventKey):
-		elsy = false
-		match event.index:
-			drag_index:
-				direction = 0
-				drag_index_validity = false
-				drag_dist = Vector2.ZERO
-			jump_index:
-				#is_jump = false
-				print("jump released")
-				jump_index_validty = false
-				can_jump = false
-				#print("can't jump")
-	if elsy and !(event is InputEventMouseMotion or event is InputEventMouseButton or event is InputEventKey):
-		if event.index == jump_index:
-			print("elsy")
-			jump_index_validty = false
-			can_jump = false
+	#if !is_drag and !event.is_pressed() and !(event is InputEventMouseMotion or event is InputEventMouseButton or event is InputEventKey):
+		#elsy = false
+		#match event.index:
+			#drag_index:
+				#direction = 0
+				#drag_index_validity = false
+				#drag_dist = Vector2.ZERO
+			#jump_index:
+				##is_jump = false
+				#print("jump released")
+				#jump_index_validity = false
+				#can_jump = false
+				##print("can't jump")
+
+	#if elsy and !(event is InputEventMouseMotion or event is InputEventMouseButton or event is InputEventKey):
+		#if event.index == jump_index:
+			#print("elsy")
+			#jump_index_validity = false
+			#can_jump = false
+	
 		
 
-func jump():
+func jump(caller):
 	if !can_jump:
 		return
 	if jump_pressed_time < MAX_JUMP_TIME:
+		#print("pressed jump time: ", jump_pressed_time)
 		velocity.y = JUMP_VELOCITY
 		#print("jumping")
 		if jump_pressed_time == 0.0:
 			animation_player.play("jump")
 		coyote_enabled = false
-	
+	#print(caller)
 	# Update jump_pressed_time.
+	#print("jump pressed time before: ", jump_pressed_time)
+	#print("frame delta: ", frame_delta)
 	jump_pressed_time += frame_delta
+	#print("jump pressed time after: ", jump_pressed_time)
+	
+#func _enable_jump_index():
+	#jump_index_validity = true
+	#await get_tree().create_timer(MAX_JUMP_TIME).timeout
+	#jump_index_validity = false
 		
 func get_direction():
 	return sign(sign(drag_dist.x) if abs(drag_dist.x) > MIN_DRAG_DIST else 0 + Input.get_action_strength("move_right") - Input.get_action_strength("move_left"))
 	
 func get_jump():
-	return Input.is_action_pressed("jump") or jump_index_validty
+	return Input.is_action_pressed("jump") or jump_index_validity
+	#return Input.is_action_pressed("jump")

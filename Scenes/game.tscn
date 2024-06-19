@@ -762,14 +762,16 @@ autoplay = "move"
 [node name="labels" type="Node" parent="."]
 
 [node name="jump" type="Label" parent="labels"]
-offset_left = -80.0
-offset_top = -32.0
-offset_right = 6.0
-offset_bottom = -9.0
+offset_left = -116.0
+offset_top = -61.0
+offset_right = 99.0
+offset_bottom = -38.0
 scale = Vector2(0.622989, 0.912087)
 theme_override_fonts/font = ExtResource("7_fs3x8")
 theme_override_font_sizes/font_size = 8
-text = "Space to jump"
+text = "tap on the right side of the screen
+ to jump"
+horizontal_alignment = 1
 
 [node name="fall" type="Label" parent="labels"]
 offset_left = 697.0
@@ -792,6 +794,18 @@ scale = Vector2(0.622989, 0.912087)
 theme_override_fonts/font = ExtResource("7_fs3x8")
 theme_override_font_sizes/font_size = 8
 text = "beware of slime monsters"
+horizontal_alignment = 1
+
+[node name="jump2" type="Label" parent="labels"]
+offset_left = -118.0
+offset_top = -35.0
+offset_right = 104.0
+offset_bottom = -12.0
+scale = Vector2(0.622989, 0.912087)
+theme_override_fonts/font = ExtResource("7_fs3x8")
+theme_override_font_sizes/font_size = 8
+text = "swipe on the left side of the screen
+ to move"
 horizontal_alignment = 1
 
 [node name="slimes" type="Node" parent="."]
