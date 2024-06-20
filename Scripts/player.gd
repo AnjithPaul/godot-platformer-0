@@ -1,31 +1,52 @@
 extends CharacterBody2D
 
-const SPEED = 130.0
-const MIN_SPEED = 120.0
-const MAX_SPEED = 150.0
-const ACCELERATION_TIME = 0.5
-const JUMP_VELOCITY = -250.0
+const MIN_SPEED = 120.0 # Minimum speed of the player
+const MAX_SPEED = 150.0 # Maximum speed of the player
+const ACCELERATION_TIME = 0.5 # Time required to achieve maximum speed
+const JUMP_VELOCITY = -250.0 # Vertical velocity during jump
 const COYOTE_TIME = 0.1  # Coyote time duration in seconds
 const MAX_JUMP_TIME = 0.2  # Maximum time the jump button can be held down
+const MIN_DRAG_DIST = 10 # Minium distance to touch and drag to get detected
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var jump_pressed_time = 0.0
-var leave_floor_time = 0.0
-var can_jump = false
-var speed = MIN_SPEED
-var previous_direction
-var coyote_enabled
+
+#jump
+var jump_pressed_time = 0.0 # Total time the jump button is held down
+var leave_floor_time = 0.0 # Time since the player last touched floor when not jumping
+var can_jump = false # Whether player can jump based on coyote time and jump button release.
+var coyote_enabled # Whether player is in coyote time
+
+#movement
+var speed = MIN_SPEED # Current speed of player
+var direction = 0 # Current direction of the player
+var previous_direction # Previous direction of the player
+
+#touch input
+var ini_pos # Starting position of the touch drag
+var move_index # Index of touch event in case of movement
+var move_index_validity = false # Whether the movement touch is still active
+var move_dist = Vector2.ZERO # Total distance dragged by movement touch
+var jump_index # Index of touch event in case of jump
+var jump_index_validity = false # Whether the jump touch is still active
+var screen_mid # Center coordinates of the screen based on screen resolution
+var frame_delta # delta of physics process
 
 @onready var animated_sprite_2d = $AnimatedSprite2D
 @onready var animation_player = $AnimationPlayer
 @onready var touch_controls = %"Touch Controls"
+@onready var camera = %camera
 
+func _ready():
+	screen_mid = get_viewport_rect().get_center().x
+	
 func _physics_process(delta):
-	# Add gravity.
+	frame_delta = delta
+
+	## Handle gravity
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
-	# Handle coyote time.
+	## Handle coyote time
 	if is_on_floor():
 		leave_floor_time = 0.0
 		jump_pressed_time = 0.0
@@ -38,23 +59,16 @@ func _physics_process(delta):
 		else:
 			can_jump = false
 
-	# Handle jump.
-	if can_jump and Input.is_action_pressed("jump") and jump_pressed_time < MAX_JUMP_TIME:
-		velocity.y = JUMP_VELOCITY
-		if jump_pressed_time == 0.0:
-			animation_player.play("jump")
-		coyote_enabled = false
-	
-	# Update jump_pressed_time.
-	if can_jump and Input.is_action_pressed("jump"):
-		jump_pressed_time += delta
-		
+	## Handle jump
+	if get_jump():
+		jump()
 	if Input.is_action_just_released("jump"):
 		can_jump = false
 
-	# Get the input direction and handle the movement/deceleration.
+	## Handle movement direction
 	var direction = get_direction()
 
+	## Handle animation
 	if is_on_floor():
 		if direction == 0:
 			animated_sprite_2d.play("idle")
@@ -65,9 +79,8 @@ func _physics_process(delta):
 
 	animated_sprite_2d.flip_h = direction < 0
 
-	#Handle Velocity
+	## Handle Velocity
 	var acceleration = (MAX_SPEED - MIN_SPEED) / ACCELERATION_TIME
-
 	if direction != previous_direction or direction == 0:
 		speed = MIN_SPEED
 	else:
@@ -75,6 +88,50 @@ func _physics_process(delta):
 	previous_direction = direction
 	velocity.x = direction * speed
 	move_and_slide()
+	
+	
+	
+	
+func _input(event):
+	if event is InputEventScreenTouch:
+		if event.is_pressed():
+			if !move_index_validity and event.position.x < screen_mid:
+				move_index = event.index
+				move_index_validity = true
+				ini_pos = event.position
+			if !jump_index_validity and event.position.x > screen_mid:
+				jump_index = event.index
+				jump_index_validity = true
+				jump()
+		else:
+			if event.index == move_index:
+				move_index_validity = false
+				move_dist = Vector2.ZERO
+			if event.index == jump_index:
+				jump_index_validity = false
+				can_jump = false
+
+	if event is InputEventScreenDrag:
+		if event.index == move_index and move_index_validity:
+			move_dist = event.position - ini_pos
+		if event.index == jump_index:
+			jump()
+
+
+func jump():
+	if !can_jump:
+		return
+	if jump_pressed_time < MAX_JUMP_TIME:
+		velocity.y = JUMP_VELOCITY
+		if jump_pressed_time == 0.0:
+			animation_player.play("jump")
+		coyote_enabled = false
+	jump_pressed_time += frame_delta
+
 
 func get_direction():
-	return sign(touch_controls.get_swipe_direction() + Input.get_action_strength("move_right") - Input.get_action_strength("move_left"))
+	return sign(sign(move_dist.x) if abs(move_dist.x) > MIN_DRAG_DIST else 0 + Input.get_action_strength("move_right") - Input.get_action_strength("move_left"))
+
+
+func get_jump():
+	return Input.is_action_pressed("jump") or jump_index_validity
