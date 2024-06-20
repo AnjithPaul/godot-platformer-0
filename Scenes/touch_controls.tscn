@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bvoul524ygymk"]
-
-[ext_resource type="Script" path="res://Scripts/touch_controls.gd" id="1_rmljh"]
-
-[node name="Touch Controls" type="Node2D"]
-script = ExtResource("1_rmljh")

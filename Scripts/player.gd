@@ -79,7 +79,7 @@ func _physics_process(delta):
 
 	animated_sprite_2d.flip_h = direction < 0
 
-	#Handle Velocity
+	## Handle Velocity
 	var acceleration = (MAX_SPEED - MIN_SPEED) / ACCELERATION_TIME
 	if direction != previous_direction or direction == 0:
 		speed = MIN_SPEED
