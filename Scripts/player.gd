@@ -114,7 +114,7 @@ func _input(event):
 	if event is InputEventScreenDrag:
 		if event.index == move_index and move_index_validity:
 			move_dist = event.position - ini_pos
-		if event.index == jump_index:
+		elif event.index == jump_index:
 			jump()
 
 
