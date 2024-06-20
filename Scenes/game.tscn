@@ -1,7 +1,6 @@
-[gd_scene load_steps=32 format=3 uid="uid://o0aj4t8d67xy"]
+[gd_scene load_steps=31 format=3 uid="uid://o0aj4t8d67xy"]
 
 [ext_resource type="PackedScene" uid="uid://b58xk3eqtnwk2" path="res://Scenes/player.tscn" id="1_4esc1"]
-[ext_resource type="PackedScene" uid="uid://bvoul524ygymk" path="res://Scenes/touch_controls.tscn" id="1_6gp6c"]
 [ext_resource type="Script" path="res://Scripts/dop.gd" id="1_bbh86"]
 [ext_resource type="Script" path="res://Scripts/game manager.gd" id="1_hxom3"]
 [ext_resource type="Texture2D" uid="uid://cf0n4a50tf0g7" path="res://Assets/sprites/world_tileset.png" id="2_2qxax"]
@@ -575,9 +574,6 @@ adjustment_brightness = 1.19
 adjustment_color_correction = SubResource("GradientTexture2D_dfflm")
 
 [node name="Game" type="Node2D"]
-
-[node name="Touch Controls" parent="." instance=ExtResource("1_6gp6c")]
-unique_name_in_owner = true
 
 [node name="game_manager" type="Node" parent="."]
 unique_name_in_owner = true
